@@ -1,3 +1,4 @@
+# printing the list of students here
 puts "The students of Villains Academy"
 puts "-------------"
 puts "Dr. Hannibal Lecter"
@@ -11,6 +12,7 @@ puts "Freddy Krueger"
 puts "The Joker"
 puts "Joffrey Baratheon"
 puts "Voldemort"
+# printing the number of students without adding a new line"
 print "Overall, we have "
 print 11
 puts " great students"
