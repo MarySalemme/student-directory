@@ -4,7 +4,7 @@ def input_students
     students = []
     name = gets.chomp
     while !name.empty? do
-        if name.start_with?("V")
+        if name.start_with?("V") && name.length < 12
             students << {name: name, cohort: :november}
             puts "Now we have #{students.count} students."
         else
