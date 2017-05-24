@@ -1,25 +1,15 @@
-# students = [
-#     { name: "Dr. Hannibal Lecter", cohort: :november},
-#     { name: "Darth Vader", cohort: :november},
-#     { name: "Nurse Ratched", cohort: :november},
-#     { name:"Michael Corleone", cohort: :november},
-#     { name:"Alex DeLarge", cohort: :november},
-#     { name: "the Wicked Witch of the West", cohort: :november},
-#     { name: "Terminator", cohort: :november},
-#     { name: "Freddy Krueger", cohort: :november},
-#     { name: "The Joker", cohort: :november},
-#     { name: "Joffrey Baratheon", cohort: :november},
-#     { name: "Voldemort", cohort: :november}
-# ]
-
 def input_students
     puts "Please enter the names of the students"
     puts "Hit return twice to finish"
     students = []
     name = gets.chomp
     while !name.empty? do
-        students << {name: name, cohort: :november}
-        puts "Now we have #{students.count} students."
+        if name.start_with?("V")
+            students << {name: name, cohort: :november}
+            puts "Now we have #{students.count} students."
+        else
+            puts "The student added does not qualify"
+        end
         name = gets.chomp
     end
     students
