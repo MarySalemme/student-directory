@@ -13,7 +13,6 @@ def show_students
 end
 
 def interactive_menu
-    
     loop do
         print_menu
         selection = gets.chomp
@@ -72,21 +71,32 @@ def input_students
 end
 
 def print_header
-    puts "The students of Villains Academy".center(50)
-    puts "-------------".center(50)
+    puts "The students of Villains Academy"
+    puts "-------------"
 end
 
 def print_students_list
-    # each_with_index added to print the number
-    @students.each_with_index do |student, index|
-        puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)".center(50)
+    @students.map do |student|
+        student[:cohort]
+    end.uniq.each do |month|
+        puts "#{month} cohort:"
+        @students.each do |student|
+           if student[:cohort] == month
+               puts "   #{student[:name]}"
+           end
+        end
+    
     end
+    
+    # @students.each_with_index do |student, index|
+    #     puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)".center(50)
+    # end
 end
 
 def print_footer
-    puts "Overall, we have #{@students.count} great #{@students.count == 1 ? "student" : "students"}.".center(50)  
+    puts "Overall, we have #{@students.count} great #{@students.count == 1 ? "student" : "students"}."
 end
-
+9
 p interactive_menu
 
 
