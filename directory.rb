@@ -15,25 +15,25 @@ def input_students
         "November", 
         "December"
     ]
-    name = gets.chomp
+    name = gets.delete("\n")
     while !name.empty? do
         if name.start_with?("V") && name.length < 12
             puts "Please enter their cohort:"
-            cohort = gets.chomp
+            cohort = gets.delete("\n")
             if months.include?(cohort)
                 students << {name: name, cohort: cohort == ""? "January" : cohort}
             else
                 puts "The cohort entered is not valid"
                 puts "Please enter their cohort:"
-                cohort = gets.chomp
+                cohort = gets.delete("\n")
             end
             puts "Now we have #{students.count} #{students.count == 1 ? "student" : "students"}."
             puts "Please enter the name of the student:"
-            name = gets.chomp
+            name = gets.delete("\n")
         else
             puts "The student added does not qualify"
             puts "Please enter the name of the student:"
-            name = gets.chomp
+            name = gets.delete("\n")
         end
         
     end
