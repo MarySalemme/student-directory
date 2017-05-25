@@ -12,20 +12,23 @@ def show_students
     print_footer
 end
 
+def process(selection)
+    case selection
+        when "1"
+            students = input_students
+        when "2"
+            show_students
+        when "9"
+            exit
+        else
+            puts "I don't know what you mean. Please try again"
+    end
+end
+
 def interactive_menu
     loop do
         print_menu
-        selection = gets.chomp
-        case selection
-            when "1"
-                students = input_students
-            when "2"
-                show_students
-            when "9"
-                exit
-            else
-                puts "I don't know what you mean. Please try again"
-        end
+        process(gets.chomp)
     end
 end
 
@@ -87,10 +90,6 @@ def print_students_list
         end
     
     end
-    
-    # @students.each_with_index do |student, index|
-    #     puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)".center(50)
-    # end
 end
 
 def print_footer
