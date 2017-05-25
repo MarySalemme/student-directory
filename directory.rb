@@ -27,7 +27,7 @@ def input_students
                 puts "Please enter their cohort:"
                 cohort = gets.chomp
             end
-            puts "Now we have #{students.count} students."
+            puts "Now we have #{students.count} #{students.count == 1 ? "student" : "students"}."
             puts "Please enter the name of the student:"
             name = gets.chomp
         else
@@ -47,14 +47,13 @@ end
 
 def print(students)
     # each_with_index added to print the number
-    
     students.each_with_index do |student, index|
         puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)".center(50)
     end
 end
 
 def print_footer(students)
-    puts "Overall, we have #{students.count} great students."  .center(50)  
+    puts "Overall, we have #{students.count} great #{students.count == 1 ? "student" : "students"}.".center(50)  
 end
 
 students = input_students
