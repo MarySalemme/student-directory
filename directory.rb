@@ -1,17 +1,27 @@
+@students = []
+
+def print_menu
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+end
+
+def show_students
+    print_header
+    print_students_list
+    print_footer
+end
+
 def interactive_menu
-    students = []
+    
     loop do
-        puts "1. Input the students"
-        puts "2. Show the students"
-        puts "9. Exit"
+        print_menu
         selection = gets.chomp
         case selection
             when "1"
                 students = input_students
             when "2"
-                print_header
-                print(students)
-                print_footer(students)
+                show_students
             when "9"
                 exit
             else
@@ -23,7 +33,6 @@ end
 def input_students
     puts "Please enter the name of the student:"
     puts "Hit return to finish"
-    students = []
     months = ["January", 
         "February", 
         "March", 
@@ -43,13 +52,13 @@ def input_students
             puts "Please enter their cohort:"
             cohort = gets.delete("\n")
             if months.include?(cohort)
-                students << {name: name, cohort: cohort == ""? "January" : cohort}
+                @students << {name: name, cohort: cohort == ""? "January" : cohort}
             else
                 puts "The cohort entered is not valid"
                 puts "Please enter their cohort:"
                 cohort = gets.delete("\n")
             end
-            puts "Now we have #{students.count} #{students.count == 1 ? "student" : "students"}."
+            puts "Now we have #{@students.count} #{@students.count == 1 ? "student" : "students"}."
             puts "Please enter the name of the student:"
             name = gets.delete("\n")
         else
@@ -59,7 +68,7 @@ def input_students
         end
         
     end
-    students
+    @students
 end
 
 def print_header
@@ -67,15 +76,15 @@ def print_header
     puts "-------------".center(50)
 end
 
-def print(students)
+def print_students_list
     # each_with_index added to print the number
-    students.each_with_index do |student, index|
+    @students.each_with_index do |student, index|
         puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)".center(50)
     end
 end
 
-def print_footer(students)
-    puts "Overall, we have #{students.count} great #{students.count == 1 ? "student" : "students"}.".center(50)  
+def print_footer
+    puts "Overall, we have #{@students.count} great #{@students.count == 1 ? "student" : "students"}.".center(50)  
 end
 
 p interactive_menu
