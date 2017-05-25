@@ -2,12 +2,31 @@ def input_students
     puts "Please enter the name of the student:"
     puts "Hit return to finish"
     students = []
+    months = ["January", 
+        "February", 
+        "March", 
+        "April", 
+        "May", 
+        "June", 
+        "July", 
+        "August", 
+        "September", 
+        "October", 
+        "November", 
+        "December"
+    ]
     name = gets.chomp
     while !name.empty? do
         if name.start_with?("V") && name.length < 12
             puts "Please enter their cohort:"
             cohort = gets.chomp
-             students << {name: name, cohort: cohort == ""? "January" : cohort} # cohort = "January" is the default value
+            if months.include?(cohort)
+                students << {name: name, cohort: cohort == ""? "January" : cohort}
+            else
+                puts "The cohort entered is not valid"
+                puts "Please enter their cohort:"
+                cohort = gets.chomp
+            end
             puts "Now we have #{students.count} students."
             puts "Please enter the name of the student:"
             name = gets.chomp
