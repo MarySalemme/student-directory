@@ -1,5 +1,5 @@
 def input_students
-    puts "Please enter the names of the students"
+    puts "Please enter the name of the student."
     puts "Hit return to finish"
     students = []
     name = gets.chomp
@@ -13,29 +13,33 @@ def input_students
             date_of_birth = gets.chomp
             students << {name: name, cohort: :november, hobbies: hobbies, country_of_birth: country_of_birth, date_of_birth: date_of_birth}
             puts "Now we have #{students.count} students."
+            puts "Please enter the name of the student."
+            name = gets.chomp
         else
-            puts "The student added does not qualify"
+            puts "The student added does not qualify."
+            puts "Please enter the name of the student."
+            name = gets.chomp
         end
-        name = gets.chomp
+        
     end
     students
 end
 
 def print_header
-    puts "The students of Villains Academy"
-    puts "-------------"
+    puts "The students of Villains Academy".center(50)
+    puts "-------------".center(50)
 end
 
 def print(students)
     # each_with_index added to print the number
     
     students.each_with_index do |student, index|
-        puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)"
+        puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)".center(50)
     end
 end
 
 def print_footer(students)
-    puts "Overall, we have #{students.count} great students."    
+    puts "Overall, we have #{students.count} great students."  .center(50)  
 end
 
 students = input_students
