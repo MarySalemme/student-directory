@@ -1,5 +1,8 @@
 require 'csv'
 
+
+puts __FILE__
+
 @students = []
 DEFAULT_STUDENTS_FILENAME = "students.csv"
 
