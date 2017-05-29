@@ -27,7 +27,7 @@ end
 def process(selection)
     case selection
         when "1"
-            @students = input_students
+            input_students
         when "2"
             show_students
         when "3"
@@ -53,7 +53,7 @@ def input_students
     puts "Hit return to finish"
     name = STDIN.gets.chomp
     while !name.empty? do
-        @students << {name: name, cohort: :november}
+        add_student(name, "november")
         puts "Now we have #{@students.count} #{@students.count == 1 ? "student" : "students"}."
         puts "Please enter the name of the student:"
         name = STDIN.gets.chomp
@@ -79,7 +79,7 @@ def load_students(filename = "students.csv")
     file = File.open(filename,"r")    
     file.readlines.each do |line|
         name, cohort = line.chomp.split(",")
-        @students << {name: name, cohort: cohort.to_sym}
+        add_student(name, cohort)
     end
     file.close
 end
@@ -96,6 +96,10 @@ def try_load_students
         exit
     end
 end
+
+def add_student(name, cohort)
+    @students << {name: name, cohort: cohort.to_sym}
+end 
 
 try_load_students
 
