@@ -1,3 +1,5 @@
+require 'csv'
+
 @students = []
 DEFAULT_STUDENTS_FILENAME = "students.csv"
 
@@ -16,22 +18,31 @@ def show_students
 end
 
 def save_students(filename = DEFAULT_STUDENTS_FILENAME)
-    file = File.open(filename,"w") do |file|# "w" -> write only
+    CSV.open(filename, "w") do |csv|
         @students.each do |student|
             student_data = [student[:name], student[:cohort]] 
-            csv_line = student_data.join(",")
-            file.puts csv_line
+            csv << student_data
         end
     end
+    # file = File.open(filename,"w") do |file|# "w" -> write only
+    #     @students.each do |student|
+    #         student_data = [student[:name], student[:cohort]] 
+    #         csv_line = student_data.join(",")
+    #         file.puts csv_line
+    #     end
+    # end
 end
 
 def load_students(filename = DEFAULT_STUDENTS_FILENAME)
-    file = File.open(filename,"r") do |file|    
-        file.readlines.each do |line|
-            name, cohort = line.chomp.split(",")
-            add_student(name, cohort)
-        end
+    CSV.foreach(filename, "r") do |name, cohort|
+        @students << {name: name, cohort: cohort.to_sym}    
     end
+    # file = File.open(filename,"r") do |file|    
+    #     file.readlines.each do |line|
+    #         name, cohort = line.chomp.split(",")
+    #         add_student(name, cohort)
+    #     end
+    # end
 end
 
 def try_load_students
