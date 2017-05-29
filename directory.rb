@@ -3,8 +3,8 @@
 def print_menu
     puts "1. Input the students"
     puts "2. Show the students"
-    puts "3. Save the list to students.csv"
-    puts "4. Load the list from students.csv"
+    puts "3. Save the list to a file"
+    puts "4. Load the list from a file"
     puts "9. Exit"
 end
 
@@ -27,7 +27,7 @@ end
 def process(selection)
     case selection
         when "1"
-            students = input_students
+            @students = input_students
         when "2"
             show_students
         when "3"
@@ -44,48 +44,20 @@ end
 def interactive_menu
     loop do
         print_menu
-        process(gets.chomp)
+        process(STDIN.gets.chomp)
     end
 end
 
 def input_students
     puts "Please enter the name of the student:"
     puts "Hit return to finish"
-    months = ["January", 
-        "February", 
-        "March", 
-        "April", 
-        "May", 
-        "June", 
-        "July", 
-        "August", 
-        "September", 
-        "October", 
-        "November", 
-        "December"
-    ]
-    name = gets.chomp
+    name = STDIN.gets.chomp
     while !name.empty? do
-        # if name.start_with?("V") && name.length < 12
-            puts "Please enter their cohort:"
-            cohort = gets.chomp
-            if months.include?(cohort)
-                @students << {name: name, cohort: cohort == ""? "January" : cohort}
-            else
-                puts "The cohort entered is not valid"
-                puts "Please enter their cohort:"
-                cohort = gets.chomp
-            end
-            puts "Now we have #{@students.count} #{@students.count == 1 ? "student" : "students"}."
-            puts "Please enter the name of the student:"
-            name = gets.chomp
-        # else
-        #     puts "The student added does not qualify"
-        #     puts "Please enter the name of the student:"
-        #     name = gets.chomp
-        # end
+        @students << {name: name, cohort: :november}
+        puts "Now we have #{@students.count} #{@students.count == 1 ? "student" : "students"}."
+        puts "Please enter the name of the student:"
+        name = STDIN.gets.chomp
     end
-    @students
 end
 
 def print_header
@@ -94,15 +66,8 @@ def print_header
 end
 
 def print_students_list
-    @students.map do |student|
-        student[:cohort]
-    end.uniq.each do |month|
-        puts "#{month} cohort:"
-        @students.each do |student|
-           if student[:cohort] == month
-               puts "   #{student[:name]}"
-           end
-        end
+    @students.each do |student|
+        puts "#{student[:name]} (#{student[:cohort]} cohort)"
     end
 end
 
@@ -110,8 +75,8 @@ def print_footer
     puts "Overall, we have #{@students.count} great #{@students.count == 1 ? "student" : "students"}."
 end
 
-def load_students
-    file = File.open("students.csv","r")    
+def load_students(filename = "students.csv")
+    file = File.open(filename,"r")    
     file.readlines.each do |line|
         name, cohort = line.chomp.split(",")
         @students << {name: name, cohort: cohort.to_sym}
@@ -119,7 +84,22 @@ def load_students
     file.close
 end
 
-p interactive_menu
+def try_load_students
+    filename = ARGV.first
+    return if filename.nil?
+    if File.exists?(filename)
+        p "il file esiste"
+        load_students(filename)
+        puts "Loaded #{students.count} from #{filename}"
+    else
+        puts "Sorry, #{filename} doesn't exist."
+        exit
+    end
+end
+
+try_load_students
+
+interactive_menu
 
 
 
