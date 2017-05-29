@@ -15,14 +15,43 @@ def show_students
     print_footer
 end
 
-def save_students
-   file = File.open(DEFAULT_STUDENTS_FILENAME,"w") # "w" -> write only
-   @students.each do |student|
-      student_data = [student[:name], student[:cohort]] 
-      csv_line = student_data.join(",")
-      file.puts csv_line
-   end
-   file.close
+def save_students(filename = DEFAULT_STUDENTS_FILENAME)
+    file = File.open(filename,"w") # "w" -> write only
+    @students.each do |student|
+        student_data = [student[:name], student[:cohort]] 
+        csv_line = student_data.join(",")
+        file.puts csv_line
+    end
+    file.close
+end
+
+def load_students(filename = DEFAULT_STUDENTS_FILENAME)
+    file = File.open(filename,"r")    
+    file.readlines.each do |line|
+        name, cohort = line.chomp.split(",")
+        add_student(name, cohort)
+    end
+    file.close
+end
+
+def try_load_students
+    filename = ARGV.first
+    filename = DEFAULT_STUDENTS_FILENAME if filename.nil?
+    check_file_and_load(filename)
+end
+
+def check_file_and_load(filename)
+   if File.exists?(filename)
+        load_students(filename)
+        puts "Loaded #{@students.count} students from #{filename}"
+    else
+        puts "Sorry, #{filename} doesn't exist."
+        exit
+    end 
+end
+
+def add_student(name, cohort)
+    @students << {name: name, cohort: cohort.to_sym}
 end
 
 def process(selection)
@@ -32,11 +61,14 @@ def process(selection)
         when "2"
             show_students
         when "3"
-            save_students
-            puts "Students saved"
+            puts "Give a name to the file"
+            filename = gets.chomp
+            save_students(filename)
+            puts "Students saved in #{filename}!"
         when "4"
-            load_students
-            puts "Students loaded"
+            puts "Which file do you want to load?"
+            filename = gets.chomp
+            check_file_and_load(filename)
         when "9"
             exit
         else
@@ -80,31 +112,6 @@ end
 def print_footer
     puts "Overall, we have #{@students.count} great #{@students.count == 1 ? "student" : "students"}."
 end
-
-def load_students(filename = DEFAULT_STUDENTS_FILENAME)
-    file = File.open(filename,"r")    
-    file.readlines.each do |line|
-        name, cohort = line.chomp.split(",")
-        add_student(name, cohort)
-    end
-    file.close
-end
-
-def try_load_students
-    filename = ARGV.first
-    filename = DEFAULT_STUDENTS_FILENAME if filename.nil?
-    if File.exists?(filename)
-        load_students(filename)
-        puts "Loaded #{@students.count} students from #{filename}"
-    else
-        puts "Sorry, #{filename} doesn't exist."
-        exit
-    end
-end
-
-def add_student(name, cohort)
-    @students << {name: name, cohort: cohort.to_sym}
-end 
 
 try_load_students
 
