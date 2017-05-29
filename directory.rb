@@ -49,15 +49,18 @@ def interactive_menu
     end
 end
 
-def input_students
+def ask_for_name
     puts "Please enter the name of the student:"
     puts "Hit return to finish"
-    name = STDIN.gets.chomp
-    while !name.empty? do
-        add_student(name, "november")
+    @name = STDIN.gets.chomp    
+end
+
+def input_students
+    ask_for_name
+    while !@name.empty? do
+        add_student(@name, "November")
         puts "Now we have #{@students.count} #{@students.count == 1 ? "student" : "students"}."
-        puts "Please enter the name of the student:"
-        name = STDIN.gets.chomp
+        ask_for_name
     end
 end
 
