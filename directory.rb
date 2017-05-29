@@ -1,4 +1,5 @@
 @students = []
+DEFAULT_STUDENTS_FILENAME = "students.csv"
 
 def print_menu
     puts "1. Input the students"
@@ -15,7 +16,7 @@ def show_students
 end
 
 def save_students
-   file = File.open("students.csv","w") # "w" -> write only
+   file = File.open(DEFAULT_STUDENTS_FILENAME,"w") # "w" -> write only
    @students.each do |student|
       student_data = [student[:name], student[:cohort]] 
       csv_line = student_data.join(",")
@@ -75,7 +76,7 @@ def print_footer
     puts "Overall, we have #{@students.count} great #{@students.count == 1 ? "student" : "students"}."
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename = DEFAULT_STUDENTS_FILENAME)
     file = File.open(filename,"r")    
     file.readlines.each do |line|
         name, cohort = line.chomp.split(",")
@@ -86,11 +87,10 @@ end
 
 def try_load_students
     filename = ARGV.first
-    return if filename.nil?
+    filename = DEFAULT_STUDENTS_FILENAME if filename.nil?
     if File.exists?(filename)
-        p "il file esiste"
         load_students(filename)
-        puts "Loaded #{students.count} from #{filename}"
+        puts "Loaded #{@students.count} students from #{filename}"
     else
         puts "Sorry, #{filename} doesn't exist."
         exit
